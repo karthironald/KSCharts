@@ -11,7 +11,7 @@ public struct KSPieChart: View {
     @State private var segments: [SegmentData] = []
     
     public init(dataPointsWithTitle: [(title: String, value: Double, colour: Color)] = []) {
-        self.dataPointsWithTitle = dataWithTitle
+        self.dataPointsWithTitle = dataPointsWithTitle
     }
     
     public var body: some View {

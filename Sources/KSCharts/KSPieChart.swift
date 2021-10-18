@@ -3,12 +3,16 @@ import SwiftUI
 
 public struct KSPieChart: View {
     
-    var dataWithTitle: [(title: String, value: Double, colour: Color)] = []
+    var dataPointsWithTitle: [(title: String, value: Double, colour: Color)] = []
     private var total : Double {
-        let durations = dataWithTitle.map { $0.value }
+        let durations = dataPointsWithTitle.map { $0.value }
         return durations.reduce(0.0, +)
     }
     @State private var segments: [SegmentData] = []
+    
+    public init(dataPointsWithTitle: [(title: String, value: Double, colour: Color)] = []) {
+        self.dataPointsWithTitle = dataWithTitle
+    }
     
     public var body: some View {
         GeometryReader { geoProxy in
@@ -16,7 +20,7 @@ public struct KSPieChart: View {
                 ZStack {
                     ForEach(0..<self.segments.count, id: \.self) { segIndex in
                         Segment(radius: geoProxy.size.width / 3, startAngle: self.segments[segIndex].startAngle, endAngle: self.segments[segIndex].endAngle)
-                            .fill(self.dataWithTitle[segIndex].colour)
+                            .fill(self.dataPointsWithTitle[segIndex].colour)
                         
                     }
                     Circle()
@@ -34,17 +38,17 @@ public struct KSPieChart: View {
                 }
                 .rotationEffect(.degrees(-90))
                 .frame(height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                ForEach(0..<self.dataWithTitle.count, id: \.self) { segIndex in
+                ForEach(0..<self.dataPointsWithTitle.count, id: \.self) { segIndex in
                     HStack {
                         Circle()
-                            .fill(self.dataWithTitle[segIndex].colour)
+                            .fill(self.dataPointsWithTitle[segIndex].colour)
                             .frame(width: 10, height: 10)
                         HStack(alignment: .center) {
-                            Text("\(self.dataWithTitle[segIndex].title)")
+                            Text("\(self.dataPointsWithTitle[segIndex].title)")
                             Text("-")
                             HStack {
-                                Text("\(self.dataWithTitle[segIndex].value, specifier: "%.2f")")
-                                Text("(\(self.percentage(of: self.dataWithTitle[segIndex].value), specifier: "%.2f")%)")
+                                Text("\(self.dataPointsWithTitle[segIndex].value, specifier: "%.2f")")
+                                Text("(\(self.percentage(of: self.dataPointsWithTitle[segIndex].value), specifier: "%.2f")%)")
                             }
                         }
                     }
@@ -65,7 +69,7 @@ public struct KSPieChart: View {
         var lastEndAngle = 0.0
         segments = []
         
-        for data in self.dataWithTitle {
+        for data in self.dataPointsWithTitle {
             let percent = percentage(of: data.value)
             let angle = (360 / 100) * (percent)
             let segmentData = SegmentData(percentage: percent, startAngle: lastEndAngle, endAngle: lastEndAngle + angle)

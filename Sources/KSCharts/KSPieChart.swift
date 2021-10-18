@@ -45,9 +45,10 @@ public struct KSPieChart: View {
                             .frame(width: 10, height: 10)
                         HStack(alignment: .center) {
                             Text("\(self.dataPointsWithTitle[segIndex].title)")
-                            Text("-")
+                            Spacer()
                             HStack {
                                 Text("\(self.dataPointsWithTitle[segIndex].value, specifier: "%.2f")")
+                                    .foregroundColor(.secondary)
                                 Text("(\(self.percentage(of: self.dataPointsWithTitle[segIndex].value), specifier: "%.2f")%)")
                             }
                         }

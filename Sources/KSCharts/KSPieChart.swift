@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct KSPieChart: View {
+public struct KSPieChart: View {
     
     var dataWithTitle: [(title: String, value: Double, colour: Color)] = []
     private var total : Double {
@@ -10,7 +10,7 @@ struct KSPieChart: View {
     }
     @State private var segments: [SegmentData] = []
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geoProxy in
             VStack {
                 ZStack {

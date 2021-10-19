@@ -37,7 +37,7 @@ public struct KSPieChart: View {
                         )
                 }
                 .rotationEffect(.degrees(-90))
-                .frame(height: 300, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                 ForEach(0..<self.dataPointsWithTitle.count, id: \.self) { segIndex in
                     HStack {
                         Circle()

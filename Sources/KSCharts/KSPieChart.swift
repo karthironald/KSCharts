@@ -19,13 +19,13 @@ public struct KSPieChart: View {
             VStack {
                 ZStack {
                     ForEach(0..<self.segments.count, id: \.self) { segIndex in
-                        Segment(radius: geoProxy.size.width / 3, startAngle: self.segments[segIndex].startAngle, endAngle: self.segments[segIndex].endAngle)
+                        Segment(radius: geoProxy.size.width / 4, startAngle: self.segments[segIndex].startAngle, endAngle: self.segments[segIndex].endAngle)
                             .fill(self.dataPointsWithTitle[segIndex].colour)
                         
                     }
                     Circle()
                         .fill(Color(UIColor.systemBackground))
-                        .frame(width: geoProxy.size.width / 2, height: geoProxy.size.width / 2)
+                        .frame(width: geoProxy.size.width / 3, height: geoProxy.size.width / 3)
                         .overlay(
                             VStack {
                                 Text("Total - \(self.total, specifier: "%.f")")

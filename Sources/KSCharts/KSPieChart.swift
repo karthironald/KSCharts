@@ -28,7 +28,7 @@ public struct KSPieChart: View {
                         .frame(width: geoProxy.size.width / 3, height: geoProxy.size.width / 3)
                         .overlay(
                             VStack {
-                                Text("Total - \(self.total, specifier: "%.f")")
+                                Text("\(self.total, specifier: "%.f")")
                                     .bold()
                                     .padding([.leading, .trailing, .top])
                                     .multilineTextAlignment(.center)
@@ -58,7 +58,9 @@ public struct KSPieChart: View {
             .padding()
         }
         .onAppear(perform: {
-            chartData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                chartData()
+            }
         })
     }
     

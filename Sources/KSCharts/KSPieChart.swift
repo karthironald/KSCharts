@@ -29,6 +29,7 @@ public struct KSPieChart: View {
                         .overlay(
                             VStack {
                                 Text("\(self.total, specifier: "%.f")")
+                                    .font(.caption)
                                     .bold()
                                     .padding([.leading, .trailing, .top])
                                     .multilineTextAlignment(.center)
@@ -45,11 +46,16 @@ public struct KSPieChart: View {
                             .frame(width: 10, height: 10)
                         HStack(alignment: .center) {
                             Text("\(self.dataPointsWithTitle[segIndex].title)")
+                                .font(.caption2)
+                                .bold()
                             Spacer()
                             HStack {
                                 Text("\(self.dataPointsWithTitle[segIndex].value, specifier: "%.2f")")
+                                    .font(.caption2)
                                     .foregroundColor(.secondary)
                                 Text("(\(self.percentage(of: self.dataPointsWithTitle[segIndex].value), specifier: "%.2f")%)")
+                                    .font(.caption2)
+                                    .bold()
                             }
                         }
                     }
@@ -58,9 +64,7 @@ public struct KSPieChart: View {
             .padding()
         }
         .onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                chartData()
-            }
+            chartData()
         })
     }
     

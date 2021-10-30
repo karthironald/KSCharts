@@ -15,52 +15,52 @@ public struct KSPieChart: View {
     }
     
     public var body: some View {
-        GeometryReader { geoProxy in
-            VStack {
-                ZStack {
-                    ForEach(0..<self.segments.count, id: \.self) { segIndex in
-                        Segment(radius: geoProxy.size.width / 4, startAngle: self.segments[segIndex].startAngle, endAngle: self.segments[segIndex].endAngle)
-                            .fill(self.dataPointsWithTitle[segIndex].colour)
-                        
-                    }
-                    Circle()
-                        .fill(Color(UIColor.systemBackground))
-                        .frame(width: geoProxy.size.width / 3, height: geoProxy.size.width / 3)
-                        .overlay(
-                            Text("\(self.total, specifier: "%.f")")
-                                .font(.caption)
-                                .bold()
-                                .padding()
-                                .multilineTextAlignment(.center)
-                            .rotationEffect(.degrees(90))
-                        )
-                }
-                .rotationEffect(.degrees(-90))
-                .frame(height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                ForEach(0..<self.dataPointsWithTitle.count, id: \.self) { segIndex in
-                    HStack {
+        ScrollView {
+            GeometryReader { geoProxy in
+                VStack {
+                    ZStack {
+                        ForEach(0..<self.segments.count, id: \.self) { segIndex in
+                            Segment(radius: geoProxy.size.width / 4, startAngle: self.segments[segIndex].startAngle, endAngle: self.segments[segIndex].endAngle)
+                                .fill(self.dataPointsWithTitle[segIndex].colour)
+                        }
                         Circle()
-                            .fill(self.dataPointsWithTitle[segIndex].colour)
-                            .frame(width: 10, height: 10)
-                        HStack(alignment: .center) {
-                            Text("\(self.dataPointsWithTitle[segIndex].title)")
-                                .font(.caption)
-                                .bold()
-                            Spacer()
-                            HStack {
-                                Text("\(self.dataPointsWithTitle[segIndex].value, specifier: "%.2f")")
-                                    .font(.caption2)
-                                    .foregroundColor(.secondary)
-                                Text("(\(self.dataPointsWithTitle[segIndex].value.percentage(from: total), specifier: "%.2f")%)")
-                                    .font(.caption2)
+                            .fill(Color(UIColor.systemBackground))
+                            .frame(width: geoProxy.size.width / 3, height: geoProxy.size.width / 3)
+                            .overlay(
+                                Text("\(self.total, specifier: "%.f")")
+                                    .font(.caption)
                                     .bold()
-                                    .layoutPriority(1)
+                                    .padding()
+                                    .multilineTextAlignment(.center)
+                                    .rotationEffect(.degrees(90))
+                            )
+                    }
+                    .rotationEffect(.degrees(-90))
+                    .frame(height: 200, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                    ForEach(0..<self.dataPointsWithTitle.count, id: \.self) { segIndex in
+                        HStack {
+                            Circle()
+                                .fill(self.dataPointsWithTitle[segIndex].colour)
+                                .frame(width: 10, height: 10)
+                            HStack(alignment: .center) {
+                                Text("\(self.dataPointsWithTitle[segIndex].title)")
+                                    .font(.caption)
+                                Spacer()
+                                HStack {
+                                    Text("\(self.dataPointsWithTitle[segIndex].value, specifier: "%.2f")")
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                    Text("(\(self.dataPointsWithTitle[segIndex].value.percentage(from: total), specifier: "%.2f")%)")
+                                        .font(.caption2)
+                                        .bold()
+                                        .layoutPriority(1)
+                                }
                             }
                         }
                     }
                 }
+                .padding()
             }
-            .padding()
         }
         .onAppear(perform: {
             chartData()

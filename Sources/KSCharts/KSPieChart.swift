@@ -27,13 +27,11 @@ public struct KSPieChart: View {
                         .fill(Color(UIColor.systemBackground))
                         .frame(width: geoProxy.size.width / 3, height: geoProxy.size.width / 3)
                         .overlay(
-                            VStack {
-                                Text("\(self.total, specifier: "%.f")")
-                                    .font(.caption)
-                                    .bold()
-                                    .padding([.leading, .trailing, .top])
-                                    .multilineTextAlignment(.center)
-                            }
+                            Text("\(self.total, specifier: "%.f")")
+                                .font(.caption)
+                                .bold()
+                                .padding()
+                                .multilineTextAlignment(.center)
                             .rotationEffect(.degrees(90))
                         )
                 }
@@ -46,16 +44,17 @@ public struct KSPieChart: View {
                             .frame(width: 10, height: 10)
                         HStack(alignment: .center) {
                             Text("\(self.dataPointsWithTitle[segIndex].title)")
-                                .font(.caption2)
+                                .font(.caption)
                                 .bold()
                             Spacer()
                             HStack {
                                 Text("\(self.dataPointsWithTitle[segIndex].value, specifier: "%.2f")")
                                     .font(.caption2)
                                     .foregroundColor(.secondary)
-                                Text("(\(self.percentage(of: self.dataPointsWithTitle[segIndex].value), specifier: "%.2f")%)")
+                                Text("(\(self.dataPointsWithTitle[segIndex].value.percentage(from: total), specifier: "%.2f")%)")
                                     .font(.caption2)
                                     .bold()
+                                    .layoutPriority(1)
                             }
                         }
                     }
@@ -68,16 +67,12 @@ public struct KSPieChart: View {
         })
     }
     
-    private func percentage(of duration: Double) -> Double {
-        (duration / total) * 100.0
-    }
-    
     private func chartData() {
         var lastEndAngle = 0.0
         segments = []
         
         for data in self.dataPointsWithTitle {
-            let percent = percentage(of: data.value)
+            let percent = data.value.percentage(from: total)
             let angle = (360 / 100) * (percent)
             let segmentData = SegmentData(percentage: percent, startAngle: lastEndAngle, endAngle: lastEndAngle + angle)
             
